@@ -47,6 +47,8 @@ const Upload: React.FC = () => {
     );
   };
 
+  console.log(file); // Log the file object for debugging
+
   // Handle Start button click to navigate to the Review page
   const handleStartReview = () => {
     // Navigate to the review page

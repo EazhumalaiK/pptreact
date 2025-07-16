@@ -75,8 +75,17 @@ const dummyDetails = {
 };
 
 const AuditDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const fileDetails = dummyDetails[Number(id)];
+  const { id } = useParams<{ id?: string }>();
+
+  if (!id) {
+    return <div>Error: No ID provided in the URL.</div>;
+  }
+
+  const fileDetails = dummyDetails[1];
+
+  if (!fileDetails) {
+    return <div>No details found for ID {id}</div>;
+  }
 
   return (
     <div className="container mx-auto p-8">
@@ -135,7 +144,7 @@ const AuditDetail: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-gray-50">
-              {fileDetails.versions.map((version, index) => (
+              {fileDetails.versions.map((version: any, index: any) => (
                 <tr
                   key={index}
                   className="border-b hover:bg-gradient-to-r from-blue-100 to-blue-200 transition-all duration-300"
@@ -177,7 +186,7 @@ const AuditDetail: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-gray-50">
-              {fileDetails.approvalHistory.map((approval, index) => (
+              {fileDetails.approvalHistory.map((approval: any, index: any) => (
                 <tr
                   key={index}
                   className="border-b hover:bg-gradient-to-r from-green-100 to-green-200 transition-all duration-300"
@@ -219,22 +228,24 @@ const AuditDetail: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-gray-50">
-              {fileDetails.rejectionHistory.map((rejection, index) => (
-                <tr
-                  key={index}
-                  className="border-b hover:bg-gradient-to-r from-red-100 to-red-200 transition-all duration-300"
-                >
-                  <td className="px-6 py-4 text-sm font-medium text-gray-700">
-                    {rejection.rejectedBy}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    {rejection.date}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
-                    {rejection.recommendationCategory}
-                  </td>
-                </tr>
-              ))}
+              {fileDetails.rejectionHistory.map(
+                (rejection: any, index: any) => (
+                  <tr
+                    key={index}
+                    className="border-b hover:bg-gradient-to-r from-red-100 to-red-200 transition-all duration-300"
+                  >
+                    <td className="px-6 py-4 text-sm font-medium text-gray-700">
+                      {rejection.rejectedBy}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      {rejection.date}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-600">
+                      {rejection.recommendationCategory}
+                    </td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
         </div>
